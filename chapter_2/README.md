@@ -71,6 +71,17 @@ Using the official [testcontainers-python documentation](https://testcontainers-
 and your favorite AI model (or course instructor) your task is to create the `postgres_database` fixture which yields a
 `Database`object.
 
+### A note on `with` and `yield`
+
+These keywords together are the key to efficient setup and teardown of your containers. The `with` statement defines the
+lifetime of the container itself. When entering the `with` statement the container is created with all configuration
+ensured. Once you exit the `with` statement the contianer is automatically torn down and removed from your system.
+
+In the middle of this you have `yield`. It tells pytest where the setup and teardown of the fixture is. At the `yield`
+statement pytest interprets this as "setup complete, now I can execute the test". Once the test has finished executing
+pytest will return to the `yield` statement and continue execution. This leads to exiting the `with` statement and thus
+the containers context manager tears down your containers safely.
+
 ## Task 2: Start the postgres container
 
 Add another test in [test_ticket_system.py](./tests/test_ticket_system.py) which you can use to test if the container is
