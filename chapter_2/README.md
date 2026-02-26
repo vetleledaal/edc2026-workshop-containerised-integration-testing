@@ -175,8 +175,8 @@ fixture. Once complete, run the unit tests again.
 ### Hint
 
 Your `PostgresContainer()` initialization must include the driver argument to specify the dialect for the connection
-string to the database. This is beacuse we use the `psycopg v3` package and not the older `psycopg v2`. Add this part in
-you code where you create the container.
+string to the database. This is because we use the `psycopg v3` package and not the older `psycopg v2` package to
+communicate with postgres. Add this part in you code where you create the container.
 
 ```python
 PostgresContainer(..., driver="psycopg")
