@@ -172,6 +172,9 @@ The test is currently set up to run with the `database_url` fixture which is con
 change the fixtures such that the `app` fixture uses the `postgres_database` fixture instead of the `database_url`
 fixture. Once complete, run the unit tests again.
 
+What happened to our tests when executing with the postgres database? Did they pass? Did they fail? If they failed, what
+was the reason for the failure?
+
 ### Hint
 
 Your `PostgresContainer()` initialization must include the driver argument to specify the dialect for the connection
@@ -182,12 +185,12 @@ communicate with postgres. Add this part in you code where you create the contai
 PostgresContainer(..., driver="psycopg")
 ```
 
-## Task 6: Evaluating the result
+## Task 6: Fixing the tests
 
-What happened to our tests when executing with the postgres database? Did they pass? Did they fail? If they failed, what
-was the reason for the failure?
+Finally, it's time to fix the underlying issue which caused our manual tests in production to fail. Given the error
+message from the previous task and previous discussions, your task is to fix the failing test.
 
-We will go through this in plenary, feel free to work on the bonus tasks while waiting.
+We will go through the solution in plenary, feel free to work on the bonus tasks while waiting.
 
 ## Bonus tasks
 
