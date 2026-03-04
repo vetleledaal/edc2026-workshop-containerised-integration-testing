@@ -119,7 +119,8 @@ host machine.
 If you inspect the `create_postgres_container()` function
 in [custom_containers/postgres.py](./integration_tests/custom_containers/postgres.py) you will see that we have already
 made some changes in this chapter which incorporates parts of this. The network alias has been added for our postgres
-container such that on the docker network you may use `postgres` instead of `localhost` or an IP address.
+container such that on the docker network you may use `postgres` instead of `localhost` or an IP address. We have also
+adjusted the connection string such that it now points to an address internally on the Docker Network.
 
 First, do the same to your `create_tickets_api_container()` function and ensure it adds an alias to our tickets_api
 container as well. Use `tickets_api` as your alias.
