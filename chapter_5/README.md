@@ -104,4 +104,52 @@ it to our test output. Additionally, we have some logic to ensure the thread and
 
 ## Task 3: Networking
 
+As you hopefully saw in the previous task, our Tickets API failed to connect to the database. The obvious culprit was
+the following line in the error output.
+
+```bash
+2026-03-04 12:46:58.174 | INFO     | custom_containers.log_docker_container:_stream_logs:61 - None: sqlalchemy.exc.OperationalError: (psycopg.OperationalError) failed to resolve host 'postgres': [Errno -2] Name or service not known
+```
+
+Why? Because of the way Docker networking works. Previously, when we were using our postgres database to run unit tests,
+we were operating by running our tests from the host machine towards a Docker container which had mapped its ports to
+`localhost`. Now we are attempting to make two separate docker containers talk together which has nothing to do with the
+host machine.
+
+If you inspect the `create_postgres_container()` function
+in [custom_containers/postgres.py](./integration_tests/custom_containers/postgres.py) you will see that we have already
+made some changes in this chapter which incorporates parts of this. The network alias has been added for our postgres
+container such that on the docker network you may use `postgres` instead of `localhost` or an IP address.
+
+First, do the same to your `create_tickets_api_container()` function and ensure it adds an alias to our tickets_api
+container as well. Use `tickets_api` as your alias.
+
+Now, you are going to ensure all your containers are on the same Docker Network such that they can talk to each other.
+Testcontainers comes with a `Network` module which is not mentioned a lot in the documentation, but here is
+the [source file](https://github.com/testcontainers/testcontainers-python/blob/main/core/testcontainers/core/network.py)
+which may be used for reference.
+
+Add a new fixture to `conftest.py` which introduces a network as shown below.
+
+```python
+import pytest
+from testcontainers.core.network import Network
+
+
+@pytest.fixture
+def network():
+    with Network() as network:
+        yield network
+```
+
+Then, your task is to ensure this fixture is propagated to both the postgres and tickets_api containers and that they
+are configured with the correct network.
+
+Once you have configured all containers to use the same network, attempt to run the test again with the sleep active. Is
+there a difference to the log output?
+
+### Hint
+
+Those useful `.with_` configuration functions again...
+
 ## Task 4: Write a test towards the Tickets API
