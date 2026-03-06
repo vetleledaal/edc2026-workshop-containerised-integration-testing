@@ -107,10 +107,8 @@ folder as we had to build and publish the docker image from task 1.
 
 Copy the example workflow we have given
 in [.github/workflows/execute_integration_tests_remotely.yml](.github/workflows/execute_integration_tests_remotely.yml)
-into
-the
-`.github/workflows` folder in your fork of the Tickets API repository. Ensure you change the username again to reflect
-your fork of the workshop repository. Once done, push the changes to the main branch of your Tickets API fork.
+into the`.github/workflows` folder in your fork of the Tickets API repository. Ensure you change the username again to
+reflect your fork of the workshop repository. Once done, push the changes to the main branch of your Tickets API fork.
 
 Go to the "Actions" tab on your Tickets API fork and verify that the "Execute integration tests chapter 6" workflow is
 present. Use the "Run workflow" button to run the workflow. Use "latest" as lane input.
