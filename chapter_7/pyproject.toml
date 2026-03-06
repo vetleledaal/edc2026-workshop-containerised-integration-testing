@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "integration-tests-ch7"
+version = "1.0.0"
+description = "Internal reusable integration test harness"
+requires-python = ">=3.13"
+dependencies = [
+  "pytest",
+  "testcontainers[postgres,mqtt]",
+  "pydantic",
+  "loguru",
+  "requests"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black"
+]
+
+[tool.setuptools.packages.find]
+where = ["integration_tests_ch7"]
+
+[tool.pytest.ini_options]
+testpaths = ["integration_tests_ch7"]
+pythonpath = ["."]
