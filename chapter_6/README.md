@@ -1,4 +1,4 @@
-# Chapter 6 -
+# Chapter 6 - Working remotely
 
 The hallway chatter about the Train Logistics&trade; application is increasing, and you can feel the deadline for
 having your integration test setup approaching. Having achieved the basics in chapter 5, enabling you to test with the
