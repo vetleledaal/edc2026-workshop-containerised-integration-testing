@@ -28,23 +28,22 @@ def network():
 def tickets_api(
     network: Network, postgres_database: PostgresDatabase
 ) -> Generator[TicketsAPI]:
-    image, container = create_tickets_api_container(
+    container = create_tickets_api_container(
         network=network, database_connection_string=postgres_database.connection_string
     )
 
-    with image:
-        with container as container:
-            wait_for_port_mapping_to_be_available(container=container, port=3000)
-            backend_url: str = f"http://localhost:{container.get_exposed_port(3000)}"
-            wait_for_tickets_api_to_be_ready(backend_url=backend_url)
+    with container:
+        wait_for_port_mapping_to_be_available(container=container, port=3000)
+        backend_url: str = f"http://localhost:{container.get_exposed_port(3000)}"
+        wait_for_tickets_api_to_be_ready(backend_url=backend_url)
 
-            yield TicketsAPI(
-                container=container,
-                backend_url=backend_url,
-                name="tickets_api",
-                port=3000,
-                alias="tickets_api",
-            )
+        yield TicketsAPI(
+            container=container,
+            backend_url=backend_url,
+            name="tickets_api",
+            port=3000,
+            alias="tickets_api",
+        )
 
 
 @pytest.fixture

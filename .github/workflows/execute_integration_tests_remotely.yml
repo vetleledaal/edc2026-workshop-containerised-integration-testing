@@ -1,0 +1,27 @@
+name: Execute integration tests remotely
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: "dev or latest"
+        required: true
+        default: latest
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  run-integration-tests:
+    uses: ./.github/workflows/run_integration_tests_ch6.yml
+    with:
+      # Pick lane automatically based on event, or honor manual input
+      lane: ${{ github.event_name == 'push' && 'dev'
+            || github.event_name == 'release' && 'latest'
+            || github.event_name == 'workflow_dispatch' && inputs.lane
+            || 'latest' }}

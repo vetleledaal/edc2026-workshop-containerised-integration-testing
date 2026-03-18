@@ -33,8 +33,8 @@ class TicketsAPI:
 def create_tickets_api_container(
     network: Network,
     database_connection_string: str,
-) -> Tuple[DockerImage, LogDockerContainer]:
-    image: DockerImage = DockerImage(path="tickets_api", tag="tickets_api:latest")
+) -> LogDockerContainer:
+    image = "ghcr.io/equinor/tickets-api:latest"
     container: LogDockerContainer = (
         LogDockerContainer(image=str(image))
         .with_exposed_ports(3000)
@@ -43,7 +43,7 @@ def create_tickets_api_container(
         .with_env("TICKETS_DATABASE_URL", database_connection_string)
     )
 
-    return image, container
+    return container
 
 
 def wait_for_tickets_api_to_be_ready(backend_url: str, timeout: int = 20) -> None:

@@ -1,5 +1,5 @@
 from threading import Thread, Event
-from typing import Optional, Any
+from typing import Optional, Any, Self
 
 from docker.errors import APIError
 from loguru import logger
@@ -24,7 +24,7 @@ class LogDockerContainer(DockerContainer):
         self._stop_logs: Event = Event()
         self._logging_thread: Optional[Thread] = None
 
-    def start(self) -> LogDockerContainer:
+    def start(self) -> Self:
         super().start()
 
         self._stop_logs.clear()
