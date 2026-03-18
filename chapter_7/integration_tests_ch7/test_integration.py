@@ -90,4 +90,18 @@ def test_check_stock(
     product: str,
     expected_in_stock: int,
 ) -> None:
-    raise NotImplementedError
+    payload: Dict = {
+        "train_code": train_code,
+        "product": product,
+        "expected_in_stock": expected_in_stock,
+    }
+    url: str = f"{train_logistics_api.backend_url}/logistics/check-stock"
+
+    response: Response = requests.post(url=url, json=payload)
+
+    content: Dict = response.json()
+
+    assert response.status_code == HTTPStatus.OK
+    assert content["train_code"] == train_code
+    assert content["product"] == product
+    assert content["in_stock"] == expected_in_stock

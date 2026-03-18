@@ -18,9 +18,6 @@ defaults:
     shell: bash
     working-directory: ./chapter_4
 
-env:
-  TICKETS_DATABASE_URL: postgresql+psycopg://train:train@db:x5x4x3x2/train
-
 jobs:
   tests:
     runs-on: ubuntu-latest

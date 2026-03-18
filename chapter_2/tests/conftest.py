@@ -7,16 +7,12 @@ from starlette.testclient import TestClient
 
 from .containers import PostgresDatabase
 from tickets_api_ch2.app import create_app
+from testcontainers.postgres import PostgresContainer
 
 
 @pytest.fixture
-def database_url(tmp_path: Path) -> str:
-    return f"sqlite:///{tmp_path}/test.db"
-
-
-@pytest.fixture
-def app(database_url: str) -> FastAPI:
-    return create_app(database_url=database_url)
+def app(postgres_database: PostgresDatabase) -> FastAPI:
+    return create_app(database_url=postgres_database.connection_string)
 
 
 @pytest.fixture
@@ -27,6 +23,16 @@ def client(app: FastAPI) -> Iterator[TestClient]:
 
 @pytest.fixture
 def postgres_database() -> Generator[PostgresDatabase]:
-    raise NotImplementedError
-
-
+    with PostgresContainer(
+        "postgres:17",
+        port=5432,
+        username="train",
+        password="train",
+        dbname="train",
+        driver="psycopg",
+    ) as postgres:
+        yield PostgresDatabase(
+            postgres,
+            connection_string=postgres.get_connection_url(),
+            alias="...",
+        )
